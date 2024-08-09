@@ -26,6 +26,15 @@
 composer require kingbes/webui
 ```
 
+|  要求   | 状态 |
+|  ----  | ----  |
+|  PHP   | 8.1+  |
+|  FFI   | *     |
+|  Windows   | true  |
+|  Linux   | 待定     |
+|  MacOs   | 待定     |
+
+
 # 示例
 
 1. 示例一
