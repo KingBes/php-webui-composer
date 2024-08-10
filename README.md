@@ -39,6 +39,36 @@ composer require kingbes/webui
 
 1. 示例一
 
+index.html
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- 必须加入webui.js，否则无法交互 -->
+    <script src="webui.js"></script>
+</head>
+
+<body>
+    <button onclick="btn()">asd</button>
+    <script>
+        function btn() {
+            hello('hello').then(function (res) {
+                console.log(res)
+            })
+        }
+    </script>
+</body>
+
+</html>
+```
+
+index.php
+
 ```php
 require "./vendor/autoload.php";
 
