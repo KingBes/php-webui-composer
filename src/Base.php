@@ -6,7 +6,7 @@ namespace Kingbes;
 
 class Base
 {
-    public \FFI $ffi;
+    public static \FFI $ffi;
 
     /**
      * 构造函数 function
@@ -16,8 +16,20 @@ class Base
     public function __construct(
         protected ?string $libraryFile = null
     ) {
-        $header = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . "webui_php.h");
-        $this->ffi = \FFI::cdef($header, $this->library());
+        if (!isset(self::$ffi)) {
+            $header = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . "webui_php.h");
+            self::$ffi = \FFI::cdef($header, $this->library());
+        }
+    }
+
+    /**
+     * 获取ffi
+     *
+     * @return \FFI
+     */
+    public function getFfi(): \FFI
+    {
+        return self::$ffi;
     }
 
     /**

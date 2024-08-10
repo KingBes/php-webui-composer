@@ -149,11 +149,11 @@ void webui_set_icon(size_t window, const char *icon, const char *icon_type);
 
 // 将文本编码为Base64。返回的缓冲区需要被释放。
 // char* base64 = webui_encode("Foo Bar");
-char *webui_encode(const char *str);
+const char *webui_encode(const char *str);
 
 // 解码Base64编码的文本。返回的缓冲区需要被释放。
 // char* str = webui_decode("SGVsbG8=");
-char *webui_decode(const char *str);
+const char *webui_decode(const char *str);
 
 // 安全地释放由web使用' webui_malloc() '分配的缓冲区。
 // webui_free(myBuffer);
@@ -279,104 +279,104 @@ bool webui_script(size_t window, const char *script, size_t timeout, char *buffe
 // bool err = webui_script_client(e, "return 4 + 6;", 0, myBuffer, myBufferSize);
 bool webui_script_client(webui_event_t *e, const char *script, size_t timeout, char *buffer, size_t buffer_length);
 
-//选择Deno和Nodejs作为.js和.ts文件的运行时。
-//webui_set_runtime(myWindow, Deno);
+// 选择Deno和Nodejs作为.js和.ts文件的运行时。
+// webui_set_runtime(myWindow, Deno);
 void webui_set_runtime(size_t window, size_t runtime);
 
-//得到事件中有多少个参数。
-//size_t count = webui_get_count(e);
-size_t webui_get_count(webui_event_t* e);
+// 得到事件中有多少个参数。
+// size_t count = webui_get_count(e);
+size_t webui_get_count(webui_event_t *e);
 
-//在特定索引处获取参数为整数。
-//long long int myNum = webui_get_int_at(e, 0);
-long long int webui_get_int_at(webui_event_t* e, size_t index);
+// 在特定索引处获取参数为整数。
+// long long int myNum = webui_get_int_at(e, 0);
+long long int webui_get_int_at(webui_event_t *e, size_t index);
 
-//获取第一个参数为整数。
-//long long int myNum = webui_get_int(e);
-long long int webui_get_int(webui_event_t* e);
+// 获取第一个参数为整数。
+// long long int myNum = webui_get_int(e);
+long long int webui_get_int(webui_event_t *e);
 
-//在特定索引处获取float参数。
-//double myNum = webui_get_float_at(e, 0);
-double webui_get_float_at(webui_event_t* e, size_t index);
+// 在特定索引处获取float参数。
+// double myNum = webui_get_float_at(e, 0);
+double webui_get_float_at(webui_event_t *e, size_t index);
 
-//获取第一个参数为float。
-//double myNum = webui_get_float(e);
-double webui_get_float(webui_event_t* e);
+// 获取第一个参数为float。
+// double myNum = webui_get_float(e);
+double webui_get_float(webui_event_t *e);
 
-//在特定索引处以字符串形式获取参数。
-//const char* myStr = webui_get_string_at(e, 0);
-const char* webui_get_string_at(webui_event_t* e, size_t index);
+// 在特定索引处以字符串形式获取参数。
+// const char* myStr = webui_get_string_at(e, 0);
+const char *webui_get_string_at(webui_event_t *e, size_t index);
 
-//获取第一个参数为字符串。
-//const char* myStr = webui_get_string(e);
-const char* webui_get_string(webui_event_t* e);
+// 获取第一个参数为字符串。
+// const char* myStr = webui_get_string(e);
+const char *webui_get_string(webui_event_t *e);
 
-//在特定索引处获取一个布尔参数。
-//bool myBool = webui_get_bool_at(e, 0);
-bool webui_get_bool_at(webui_event_t* e, size_t index);
+// 在特定索引处获取一个布尔参数。
+// bool myBool = webui_get_bool_at(e, 0);
+bool webui_get_bool_at(webui_event_t *e, size_t index);
 
-//获取第一个参数为布尔值。
-//bool myBool = webui_get_bool(e);
-bool webui_get_bool(webui_event_t* e);
+// 获取第一个参数为布尔值。
+// bool myBool = webui_get_bool(e);
+bool webui_get_bool(webui_event_t *e);
 
-//获取特定索引处参数的大小(以字节为单位)。
-//size_t argLen = webui_get_size_at(e, 0);
-size_t webui_get_size_at(webui_event_t* e, size_t index);
+// 获取特定索引处参数的大小(以字节为单位)。
+// size_t argLen = webui_get_size_at(e, 0);
+size_t webui_get_size_at(webui_event_t *e, size_t index);
 
-//获取第一个参数的字节大小。
-//size_t argLen = webui_get_size(e);
-size_t webui_get_size(webui_event_t* e);
+// 获取第一个参数的字节大小。
+// size_t argLen = webui_get_size(e);
+size_t webui_get_size(webui_event_t *e);
 
-//将响应作为整数返回给JavaScript。
-//webui_return_int(e, 123);
-void webui_return_int(webui_event_t* e, long long int n);
+// 将响应作为整数返回给JavaScript。
+// webui_return_int(e, 123);
+void webui_return_int(webui_event_t *e, long long int n);
 
-//将响应作为浮点数返回给JavaScript。
-//webui_return_float(e, 123.456);
-void webui_return_float(webui_event_t* e, double f);
+// 将响应作为浮点数返回给JavaScript。
+// webui_return_float(e, 123.456);
+void webui_return_float(webui_event_t *e, double f);
 
-//将响应作为字符串返回给JavaScript。
-//webui_return_string(e, "Response...");
-void webui_return_string(webui_event_t* e, const char* s);
+// 将响应作为字符串返回给JavaScript。
+// webui_return_string(e, "Response...");
+void webui_return_string(webui_event_t *e, const char *s);
 
-//将响应作为布尔值返回给JavaScript。
-//webui_return_bool(e, true);
-void webui_return_bool(webui_event_t* e, bool b);
+// 将响应作为布尔值返回给JavaScript。
+// webui_return_bool(e, true);
+void webui_return_bool(webui_event_t *e, bool b);
 
 // -- 包装器的接口 -------------
 
-//将特定的HTML元素click事件与函数绑定。空元素表示所有事件。
-//size_t id = webui_interface_bind(myWindow, "myID", myCallback);
-size_t webui_interface_bind(size_t window, const char* element, void (*func)(size_t, size_t, char*, size_t, size_t));
+// 将特定的HTML元素click事件与函数绑定。空元素表示所有事件。
+// size_t id = webui_interface_bind(myWindow, "myID", myCallback);
+size_t webui_interface_bind(size_t window, const char *element, void (*func)(size_t, size_t, char *, size_t, size_t));
 
-//当使用' webui_interface_bind() '时，你可能需要这个函数来方便地设置响应。
-//webui_interface_set_response(myWindow, e->event_number, "Response...");
-void webui_interface_set_response(size_t window, size_t event_number, const char* response);
+// 当使用' webui_interface_bind() '时，你可能需要这个函数来方便地设置响应。
+// webui_interface_set_response(myWindow, e->event_number, "Response...");
+void webui_interface_set_response(size_t window, size_t event_number, const char *response);
 
-//检查应用程序是否仍在运行。
-//bool status = webui_interface_is_app_running();
+// 检查应用程序是否仍在运行。
+// bool status = webui_interface_is_app_running();
 bool webui_interface_is_app_running(void);
 
-//获取唯一的窗口ID。
-//size_t id = webui_interface_get_window_id(myWindow);
+// 获取唯一的窗口ID。
+// size_t id = webui_interface_get_window_id(myWindow);
 size_t webui_interface_get_window_id(size_t window);
 
-//在特定索引处以字符串形式获取参数。
-//const char* myStr = webui_interface_get_string_at(myWindow, e->event_number, 0);
-const char* webui_interface_get_string_at(size_t window, size_t event_number, size_t index);
+// 在特定索引处以字符串形式获取参数。
+// const char* myStr = webui_interface_get_string_at(myWindow, e->event_number, 0);
+const char *webui_interface_get_string_at(size_t window, size_t event_number, size_t index);
 
-//在特定索引处获取参数为整数。
-//long long int myNum = webui_interface_get_int_at(myWindow, e->event_number, 0);
+// 在特定索引处获取参数为整数。
+// long long int myNum = webui_interface_get_int_at(myWindow, e->event_number, 0);
 long long int webui_interface_get_int_at(size_t window, size_t event_number, size_t index);
 
-//在特定索引处获取float参数。
-//double myFloat = webui_interface_get_int_at(myWindow, e->event_number, 0);
+// 在特定索引处获取float参数。
+// double myFloat = webui_interface_get_int_at(myWindow, e->event_number, 0);
 double webui_interface_get_float_at(size_t window, size_t event_number, size_t index);
 
-//在特定索引处获取一个布尔参数。
-//bool myBool = webui_interface_get_bool_at(myWindow, e->event_number, 0);
+// 在特定索引处获取一个布尔参数。
+// bool myBool = webui_interface_get_bool_at(myWindow, e->event_number, 0);
 bool webui_interface_get_bool_at(size_t window, size_t event_number, size_t index);
 
-//获取特定索引处参数的大小(以字节为单位)。
-// size_t argLen = webui_interface_get_size_at(myWindow, e->event_number, 0);
+// 获取特定索引处参数的大小(以字节为单位)。
+//  size_t argLen = webui_interface_get_size_at(myWindow, e->event_number, 0);
 size_t webui_interface_get_size_at(size_t window, size_t event_number, size_t index);
