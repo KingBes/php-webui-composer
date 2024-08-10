@@ -45,28 +45,17 @@ class Webui extends Base
      * @param integer $windows 窗口对象
      * @param string $element 绑定js函数名
      * @param Closure $func php函数
-     * @return integer
+     * @return boolean
      */
     public function bind(
         int $windows,
         string $element,
         Closure $func
-    ): int {
-
+    ): mixed {
         $callback = $this->ffi->new('void (*)(webui_event_t *)');
-        // $callback = $callbackPtr->cdata;
-        $callback = function ($event) use ($func) {
-            /* $phpEvent = [
-                'window' => $event->window,
-                'event_type' => $event->event_type,
-                'element' => \FFI::string($event->element),
-                'event_number' => $event->event_number,
-                'bind_id' => $event->bind_id,
-                'client_id' => $event->client_id,
-                'connection_id' => $event->connection_id,
-                'cookies' => \FFI::string($event->cookies)
-            ]; */
-            $func($event);
+        $then = $this;
+        $callback = function ($event) use ($func, $then) {
+            return $func((object)$event[0], $then);
         };
         return $this->ffi->webui_bind($windows, $element, $callback);
     }
@@ -87,6 +76,11 @@ class Webui extends Base
     public function show(int $windows, string $content): bool
     {
         return $this->ffi->webui_show($windows, $content);
+    }
+
+    public function showWv(int $windows, string $content): bool
+    {
+        return $this->ffi->webui_show_wv($windows, $content);
     }
 
     /**

@@ -2,12 +2,12 @@ typedef struct webui_event_t
 {
     size_t window;        // 窗口对象号
     size_t event_type;    // 事件类型
-    char *element;        // HTML元素ID
+    const char *element;  // HTML元素ID
     size_t event_number;  // 内部WebUI
     size_t bind_id;       // 绑定 id
     size_t client_id;     // 客户端唯一ID
     size_t connection_id; // 客户端连接ID
-    char *cookies;        // 客户的全部 cookies
+    const char *cookies;  // 客户的全部 cookies
 } webui_event_t;
 
 typedef enum
