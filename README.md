@@ -14,11 +14,14 @@
 [![][release-version]](https://github.com/webui-dev/webui/releases/latest)
 [![][license]](https://github.com/webui-dev/webui/blob/main/LICENSE)
 
+>使用任何web浏览器或WebView作为GUI，后端使用您喜欢的语言，前端使用现代web技术，所有这些都在一个轻量级的便携式库中。
+
+![Screenshot](https://raw.githubusercontent.com/webui-dev/webui-logo/main/screenshot.png)
+
 </div>
 
-## GITHUB [webui](https://github.com/webui-dev/webui)
-
-## 官网 [url](https://webui.me/)
+> [!提示]
+> WebView在win32可能不能用哦
 
 # composer
 
