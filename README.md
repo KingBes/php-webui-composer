@@ -30,7 +30,7 @@
 composer require kingbes/webui
 ```
 
-|  要求   | 状态 |
+|  require   |  |
 |  ----  | ----  |
 |  PHP   | 8.1+  |
 |  FFI   | *     |
