@@ -1,3 +1,36 @@
+// -- Enums ---------------------------
+enum webui_browser { // 浏览器
+    NoBrowser = 0,  // 0. 无浏览器
+    AnyBrowser = 1, // 1. Default recommended web browser
+    Chrome,         // 2. Google Chrome
+    Firefox,        // 3. Mozilla Firefox
+    Edge,           // 4. Microsoft Edge
+    Safari,         // 5. Apple Safari
+    Chromium,       // 6. The Chromium Project
+    Opera,          // 7. Opera Browser
+    Brave,          // 8. The Brave Browser
+    Vivaldi,        // 9. The Vivaldi Browser
+    Epic,           // 10. The Epic Browser
+    Yandex,         // 11. The Yandex Browser
+    ChromiumBased,  // 12. Any Chromium based browser
+    Webview,        // 13. WebView (Non-web-browser)
+};
+
+enum webui_runtime {
+    None = 0, // 0. Prevent WebUI from using any runtime for .js and .ts files
+    Deno,     // 1. Use Deno runtime for .js and .ts files
+    NodeJS,   // 2. Use Nodejs runtime for .js files
+    Bun,      // 3. Use Bun runtime for .js and .ts files
+};
+
+enum webui_event {
+    WEBUI_EVENT_DISCONNECTED = 0, // 0. Window disconnection event
+    WEBUI_EVENT_CONNECTED,        // 1. Window connection event
+    WEBUI_EVENT_MOUSE_CLICK,      // 2. Mouse click event
+    WEBUI_EVENT_NAVIGATION,       // 3. Window navigation event
+    WEBUI_EVENT_CALLBACK,         // 4. Function call event
+};
+
 typedef struct webui_event_t
 {
     size_t window;        // 窗口对象号

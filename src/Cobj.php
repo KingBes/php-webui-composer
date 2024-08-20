@@ -60,8 +60,18 @@ class Cobj extends Base
      *
      * @return object
      */
-    public function config():object
+    public function config(): object
     {
         return self::$ffi->new("webui_config");
+    }
+
+    /**
+     * ffi function
+     *
+     * @return mixed
+     */
+    public function ffi(): mixed
+    {
+        return self::$ffi;
     }
 }
