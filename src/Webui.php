@@ -389,7 +389,7 @@ class Webui extends Base
      */
     public function setSize(int $window, int $width, int $height): void
     {
-        self::$ffi->webui_set_size($width, $width, $height);
+        self::$ffi->webui_set_size($window, $width, $height);
     }
 
     /**
