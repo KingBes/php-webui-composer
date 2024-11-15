@@ -39,9 +39,9 @@ composer require kingbes/webui
 |  MacOs   | To be tested     |
 
 
-# 示例
+# example
 
-1. 示例一
+1. Example I
 
 index.html
 
@@ -95,7 +95,7 @@ $Webui->wait();
 $Webui->clean();
 ```
 
-## 各类用法说明
+## Various usage instructions
 
 1. `Webui` Webui class
 2. `JavaScript` Used to interact with js bindings
