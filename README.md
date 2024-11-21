@@ -34,9 +34,12 @@ composer require kingbes/webui
 |  ----  | ----  |
 |  PHP   | 8.1+  |
 |  FFI   | *     |
-|  Windows   | true  |
-|  Linux   | true     |
-|  MacOs   | To be tested     |
+|  Windows-x64   | true  |
+|  Linux-x64   | true     |
+|  Linux-arm   | To be tested  |
+|  Linux-arm64   | To be tested  |
+|  MacOs-x64   | To be tested  |
+|  MacOs-arm64   | To be tested  |
 
 
 # example
