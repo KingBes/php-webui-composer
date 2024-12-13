@@ -22,8 +22,6 @@
 
 [中文自述](/README-zh-CN.md)
 
-> WebView may not work in win32
-
 # composer
 
 ```shell

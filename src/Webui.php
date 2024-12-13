@@ -66,7 +66,20 @@ class Webui extends Base
 
     /**
      * 获取要使用的推荐web浏览器ID。如果您已经使用了一个ID，则此函数将返回相同的ID。
-     *
+     * NoBrowser = 0,  // 0. No web browser
+     * AnyBrowser = 1, // 1. Default recommended web browser
+     * Chrome,         // 2. Google Chrome
+     * Firefox,        // 3. Mozilla Firefox
+     * Edge,           // 4. Microsoft Edge
+     * Safari,         // 5. Apple Safari
+     * Chromium,       // 6. The Chromium Project
+     * Opera,          // 7. Opera Browser
+     * Brave,          // 8. The Brave Browser
+     * Vivaldi,        // 9. The Vivaldi Browser
+     * Epic,           // 10. The Epic Browser
+     * Yandex,         // 11. The Yandex Browser
+     * ChromiumBased,  // 12. Any Chromium based browser
+     * WebView,        // 13. WebView (Non-web-browser)
      * @param integer $window 窗口对象
      * @return integer
      */

@@ -16,6 +16,8 @@ class Base
     public function __construct(
         protected ?string $libraryFile = null
     ) {
+        // 设置工作目录
+        \FFI\WorkDirectory\WorkDirectory::set(__DIR__ . DIRECTORY_SEPARATOR . "os");
         if (!isset(self::$ffi)) {
             $header = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . "webui_php.h");
             self::$ffi = \FFI::cdef($header, $this->library());

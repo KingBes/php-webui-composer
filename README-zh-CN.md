@@ -20,9 +20,6 @@
 
 </div>
 
-> [!提示]
-> WebView在win32可能不能用哦
-
 Q群：515415726
 
 # composer
