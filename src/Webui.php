@@ -66,8 +66,8 @@ class Webui extends Base
 
     /**
      * 获取要使用的推荐web浏览器ID。如果您已经使用了一个ID，则此函数将返回相同的ID。
-     * NoBrowser = 0,  // 0. No web browser
-     * AnyBrowser = 1, // 1. Default recommended web browser
+     * NoBrowser = 0,  // 0. 无浏览器
+     * AnyBrowser = 1, // 1. 任何浏览器
      * Chrome,         // 2. Google Chrome
      * Firefox,        // 3. Mozilla Firefox
      * Edge,           // 4. Microsoft Edge
@@ -83,7 +83,7 @@ class Webui extends Base
      * @param integer $window 窗口对象
      * @return integer
      */
-    public function getBestBrowser(int $window): int
+    public function getBestBrowser(int $window = 1): int
     {
         return self::$ffi->webui_get_best_browser($window);
     }
@@ -661,5 +661,103 @@ class Webui extends Base
     public function setRuntime(int $window, int $runtime): void
     {
         self::$ffi->webui_set_runtime($window, $runtime);
+    }
+
+    /**
+     * 设置窗口的最小大小。
+     *
+     * @param integer $window 窗口对象
+     * @param integer $width 宽度
+     * @param integer $height 高度
+     * @example 示例 setMinimumSize($window, 800, 600);
+     * @return void
+     */
+    public function setMinimumSize(int $window, int $width, int $height): void
+    {
+        self::$ffi->webui_set_minimum_size($window, $width, $height);
+    }
+
+    /**
+     *  在使用‘ bind() ’之后使用这个API来添加任何用户数据
+     * 稍后使用‘ setContext() ’读取。
+     *
+     * @param integer $window 窗口对象
+     * @param string $element HTML元素/ JavaScript脚本
+     * @param mixed $context 任何用户数据
+     * @example 示例 setContext($window,"myID",$myData);
+     * @return void
+     */
+    public function setContext(int $window, string $element, mixed $context): void
+    {
+        self::$ffi->webui_set_context($window, $element, $context);
+    }
+
+    /**
+     * 从使用‘ setContext() ’添加的用户数据中获取数据。
+     *
+     * @param Closure $func 事件
+     * @example 示例 $myData = getContext(function($event){});
+     * @return mixed
+     */
+    public function getContext(Closure $func): mixed
+    {
+        return self::$ffi->webui_get_context($func);
+    }
+
+    /**
+     * 添加自定义浏览器的CLI参数。
+     *
+     * @param integer $window 窗口对象
+     * @param string $parameters 参数
+     * @example 示例 setCustomParameters($window, "--remote-debugging-port=9222");
+     * @return void
+     */
+    public function setCustomParameters(int $window, string $parameters): void
+    {
+        self::$ffi->webui_set_custom_parameters($window, $parameters);
+    }
+
+    /**
+     * 设置一个自定义处理程序来提供文件。 这个自定义处理程序应该
+     * 返回完整的HTTP报头和正文。
+     * 这将禁用任何先前使用‘ setFileHandler ’设置的处理程序。
+     *
+     * @param integer $window 窗口对象号
+     * @param Closure $func 函数 参数 string $filename,int $length
+     * @example 示例 setFileHandlerWindow($window,function($filename, $length){});
+     * @return void
+     */
+    public function setFileHandlerWindow(int $window, Closure $func): void
+    {
+        $callback = function ($window, $filename, $length) use ($func) {
+            return $func($window, $filename, $length);
+        };
+        self::$ffi->webui_set_file_handler_window($window, $callback);
+    }
+
+    /**
+     * 复制原始数据。
+     *
+     * @param mixed $dest 目标内存指针
+     * @param mixed $src 源内存指针
+     * @param integer $count 要复制的字节
+     * @return void
+     */
+    public function memcpy(mixed $dest, mixed $src, int $count): void
+    {
+        self::$ffi->webui_memcpy($dest, $src, $count);
+    }
+
+    /**
+     * 获取Win32窗口‘ HWND ’。使用WebView更可靠
+     * 比web浏览器窗口，因为浏览器的pid可能会在启动时改变。
+     *
+     * @param integer $window 窗口对象
+     * @example 示例 $hwnd = win32GetHwnd($window);
+     * @return mixed HWND
+     */
+    public function win32GetHwnd(int $window): mixed
+    {
+        return self::$ffi->webui_win32_get_hwnd($window);
     }
 }

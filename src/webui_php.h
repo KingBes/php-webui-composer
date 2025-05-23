@@ -1,5 +1,6 @@
 // -- Enums ---------------------------
-enum webui_browser { // 浏览器
+enum webui_browser
+{                   // 浏览器
     NoBrowser = 0,  // 0. 无浏览器
     AnyBrowser = 1, // 1. Default recommended web browser
     Chrome,         // 2. Google Chrome
@@ -16,14 +17,16 @@ enum webui_browser { // 浏览器
     Webview,        // 13. WebView (Non-web-browser)
 };
 
-enum webui_runtime {
+enum webui_runtime
+{
     None = 0, // 0. Prevent WebUI from using any runtime for .js and .ts files
     Deno,     // 1. Use Deno runtime for .js and .ts files
     NodeJS,   // 2. Use Nodejs runtime for .js files
     Bun,      // 3. Use Bun runtime for .js and .ts files
 };
 
-enum webui_event {
+enum webui_event
+{
     WEBUI_EVENT_DISCONNECTED = 0, // 0. Window disconnection event
     WEBUI_EVENT_CONNECTED,        // 1. Window connection event
     WEBUI_EVENT_MOUSE_CLICK,      // 2. Mouse click event
@@ -294,6 +297,100 @@ void webui_set_event_blocking(size_t window, bool status);
 // const char* mime = webui_get_mime_type("foo.png");
 const char *webui_get_mime_type(const char *file);
 
+/**
+ * @brief 设置窗口的最小大小。
+ *
+ * @param window 窗口对象号
+ * @param width 窗口宽度
+ * @param height 窗口高度
+ *
+ * @example webui_set_minimum_size(myWindow, 800, 600);
+ */
+void webui_set_minimum_size(size_t window, unsigned int width, unsigned int height);
+
+/**
+ * @brief 在使用‘ webui_bind() ’之后使用这个API来添加任何用户数据
+ * 稍后使用‘ webue_get_context() ’读取。
+ *
+ * @param window 窗口号
+ * @param element HTML元素/ JavaScript对象
+ * @param context 任何用户数据
+ *
+ * @example
+ * webui_bind(myWindow, "myFunction", myFunction);
+ *
+ * webui_set_context(myWindow, "myFunction", myData);
+ *
+ * void myFunction(webui_event_t* e) {
+ *   void* myData = webui_get_context(e);
+ * }
+ */
+void webui_set_context(size_t window, const char *element, void *context);
+
+/**
+ * @brief 获取使用‘ webui_set_context() ’设置的用户数据。
+ *
+ * @param e 事件
+ *
+ * @return void* 用户数据
+ *
+ * @example
+ * webui_bind(myWindow, "myFunction", myFunction);
+ *
+ * webui_set_context(myWindow, "myFunction", myData);
+ *
+ * void myFunction(webui_event_t* e) {
+ *   void* myData = webui_get_context(e);
+ * }
+ */
+void *webui_get_context(webui_event_t *e);
+
+/**
+ * @brief 添加自定义浏览器的CLI参数。
+ *
+ * @param window 窗口对象号
+ * @param params 命令行参数
+ *
+ * @example webui_set_custom_parameters(myWindow, "--remote-debugging-port=9222");
+ */
+void webui_set_custom_parameters(size_t window,const char *params);
+
+/**
+ * @brief 设置一个自定义处理程序来提供文件。 这个自定义处理程序应该
+ * 返回完整的HTTP报头和正文。
+ * 这将禁用任何先前使用‘ webui_set_file_handler ’设置的处理程序。
+ *
+ * @param window 窗口对象号
+ * @param handler The handler function: `void myHandler(size_t window, const char* filename,
+ * int* length)`
+ *
+ * @example webui_set_file_handler_window(myWindow, myHandlerFunction);
+ */
+void webui_set_file_handler_window(size_t window, const void *(*handler)(size_t window, const char *filename, int *length));
+
+/**
+ * @brief 复制原始数据。
+ *
+ * @param dest 目标内存指针
+ * @param src 源内存指针
+ * @param count 要复制的字节
+ *
+ * @example webui_memcpy(myBuffer, myData, 64);
+ */
+void webui_memcpy(void *dest, void *src, size_t count);
+
+/**
+ * @brief 获取Win32窗口‘ HWND ’。使用WebView更可靠
+ * 比web浏览器窗口，因为浏览器的pid可能会在启动时改变。
+ *
+ * @param window 窗口对象号
+ *
+ * @return 返回窗口的 `hwnd` as `void*`
+ *
+ * @example HWND hwnd = webui_win32_get_hwnd(myWindow);
+ */
+void *webui_win32_get_hwnd(size_t window);
+
 // -- JavaScript ----------------------
 
 // 运行JavaScript而不等待响应。所有的客户。
@@ -413,3 +510,93 @@ bool webui_interface_get_bool_at(size_t window, size_t event_number, size_t inde
 // 获取特定索引处参数的大小(以字节为单位)。
 //  size_t argLen = webui_interface_get_size_at(myWindow, e->event_number, 0);
 size_t webui_interface_get_size_at(size_t window, size_t event_number, size_t index);
+
+/**
+ * @brief 如果你的后端需要异步，使用这个API来设置一个文件处理程序响应
+ * 响应‘ webue_set_file_handler() ’。
+ *
+ * @param window 窗口对象号
+ * @param response 响应缓冲区
+ * @param length 响应长度
+ *
+ * @example webui_interface_set_response_file_handler(myWindow, buffer, 1024);
+ */
+void webui_interface_set_response_file_handler(size_t window, const void *response, int length);
+
+/**
+ * @brief 使用嵌入的HTML或文件显示窗口。如果窗口已经
+ * 打开，会刷新。单一的客户端。
+ *
+ * @param window 窗口对象号
+ * @param event_number 事件号
+ * @param content HTML、URL或本地文件
+ *
+ * @return 如果成功显示窗口，返回True。
+ *
+ * @example webui_show_client(e, "<html>...</html>"); |
+ * webui_show_client(e, "index.html"); | webui_show_client(e, "http://...");
+ */
+bool webui_interface_show_client(size_t window, size_t event_number, const char *content);
+
+/**
+ * @brief 关闭特定客户端。
+ *
+ * @param window 窗口对象号
+ * @param event_number 事件号
+ *
+ * @example webui_close_client(e);
+ */
+void webui_interface_close_client(size_t window, size_t event_number);
+
+/**
+ * @brief 安全地将原始数据发送到UI。单一的客户端。
+ *
+ * @param window 窗口对象号
+ * @param event_number 事件号
+ * @param function 接收原始数据的JavaScript函数
+ * myFunc(myData){}`
+ * @param raw 原始数据缓冲区r
+ * @param size 原始数据大小（以字节为单位）
+ *
+ * @example webui_send_raw_client(e, "myJavaScriptFunc", myBuffer, 64);
+ */
+void webui_interface_send_raw_client(size_t window, size_t event_number, const char *function, const void *raw, size_t size);
+
+/**
+ * @brief 导航到特定的URL。单一的客户端。
+ *
+ * @param window 窗口号
+ * @param event_number 事件号
+ * @param url 完整的HTTP URL
+ *
+ * @example webui_navigate_client(e, "http://domain.com");
+ */
+void webui_interface_navigate_client(size_t window, size_t event_number, const char *url);
+
+/**
+ * @brief 运行JavaScript而不等待响应。单一的客户端。
+ *
+ * @param window 窗口号
+ * @param event_number 事件号
+ * @param script 要运行的JavaScript脚本
+ *
+ * @example webui_run_client(e, "alert('Hello');");
+ */
+void webui_interface_run_client(size_t window, size_t event_number, const char *script);
+
+/**
+ * @brief 运行JavaScript并获得响应。单一的客户端。
+ * 确保你的本地缓冲区可以保存响应。
+ *
+ * @param window 窗口号
+ * @param event_number 事件号
+ * @param script 要运行的JavaScript脚本
+ * @param timeout 执行超时时间（以秒为单位）
+ * @param buffer 本地缓冲区来保存响应
+ * @param buffer_length 本地缓冲区大小
+ *
+ * @return 如果没有执行错误，返回True。
+ *
+ * @example bool err = webui_script_client(e, "return 4 + 6;", 0, myBuffer, myBufferSize);
+ */
+bool webui_interface_script_client(size_t window, size_t event_number, const char *script, size_t timeout, char *buffer, size_t buffer_length);
